@@ -12,8 +12,8 @@ import (
 
 func main() {
 	defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
-	width := 1700
-	height := 900
+	width := 1200
+	height := 400
 
 	spheres, err := buildScene()
 	if err != nil {
@@ -24,7 +24,7 @@ func main() {
 		panic(err)
 	}
 
-	f, err := os.Create("outimage.png")
+	f, err := os.Create("example.png")
 	if err != nil {
 		panic(err)
 	}

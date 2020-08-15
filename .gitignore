@@ -18,3 +18,5 @@ raytracer
 
 # Output files
 *.png
+
+.idea/
