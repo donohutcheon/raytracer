@@ -2,7 +2,7 @@
 
 
 Inline-style: 
-![alt text](https://github.com/donohutcheon/raytracer/docs/example.png "Example scene")
+![alt text](https://github.com/donohutcheon/raytracer/blob/master/docs/example.png "Example scene")
 
 A simple raytracer implemented in Go to explore the profiling and optimization tooling that is provided by Go.
 
