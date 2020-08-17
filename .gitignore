@@ -20,3 +20,7 @@ raytracer
 *.png
 
 .idea/
+
+
+untitled.ppm
+cpp/cmake-build-debug/
