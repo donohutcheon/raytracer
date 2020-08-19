@@ -24,3 +24,11 @@ raytracer
 
 untitled.ppm
 cpp/cmake-build-debug/
+conaninfo.txt
+conanbuild.txt
+conanbuild.cmake
+conan.lock
+CMakeCache.txt
+cmake_install.cmake
+graph_info.json
+Makefile
