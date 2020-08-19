@@ -12,14 +12,13 @@ import (
 
 func main() {
 	defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
-	width := 1200
-	height := 400
 
-	spheres, err := buildScene()
+	config, err := buildScene()
 	if err != nil {
 		panic("Could not load scene " + err.Error())
 	}
-	img, err := raytrace.RenderImage(width, height, spheres, 30.0)
+
+	img, err := raytrace.RenderImage(config, 30.0)
 	if err != nil {
 		panic(err)
 	}
@@ -36,17 +35,17 @@ func main() {
 	}
 }
 
-func buildScene() ([]raytrace.Sphere, error)  {
+func buildScene() (*raytrace.Config, error)  {
 	b, err := ioutil.ReadFile("scene.json")
 	if err != nil {
 		return nil, err
 	}
 
-	var spheres []raytrace.Sphere
-	err = json.Unmarshal(b, &spheres)
+	config := new(raytrace.Config)
+	err = json.Unmarshal(b, &config)
 	if err != nil {
 		return nil, err
 	}
 
-	return spheres, nil
+	return config, nil
 }

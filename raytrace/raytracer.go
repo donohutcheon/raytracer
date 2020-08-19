@@ -13,7 +13,9 @@ func mix(a float64, b float64, mix float64) float64 {
 	return b * mix + a * (1 - mix)
 }
 
-func RenderImage(width, height int, spheres []Sphere, fieldOfView float64) (image.Image, error){
+func RenderImage(config *Config, fieldOfView float64) (image.Image, error){
+	width := config.Image.Width
+	height := config.Image.Height
 	r := image.Rect(0, 0, width, height)
 	img := image.NewRGBA(r)
 	invWidth := 1 / float64(width)
@@ -23,7 +25,7 @@ func RenderImage(width, height int, spheres []Sphere, fieldOfView float64) (imag
 	angle := math.Tan(math.Pi * 0.5 * fieldOfView / 180.0)
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			c, err := CastRay(x, y, invWidth, invHeight, aspectRatio, angle, spheres)
+			c, err := CastRay(x, y, invWidth, invHeight, aspectRatio, angle, config)
 			if err != nil {
 				return nil, err
 			}
@@ -33,7 +35,7 @@ func RenderImage(width, height int, spheres []Sphere, fieldOfView float64) (imag
 	return img, nil
 }
 
-func CastRay(x, y int, invWidth, invHeight, aspectRatio, angle float64, spheres []Sphere) (color.Color, error) {
+func CastRay(x, y int, invWidth, invHeight, aspectRatio, angle float64, config *Config) (color.Color, error) {
 	fx := float64(x)
 	fy := float64(y)
 	xx := (2 * ((fx + 0.5) * invWidth) - 1) * angle * aspectRatio
@@ -44,8 +46,8 @@ func CastRay(x, y int, invWidth, invHeight, aspectRatio, angle float64, spheres 
 		Z: -1,
 	}
 	rayDir = rayDir.Normalize()
-	origin := Vector3{}
-	pixel, err := Trace(origin, rayDir, spheres, 0)
+	origin := config.Scene.Camera.Position
+	pixel, err := Trace(origin, rayDir, config.Scene.Spheres, 0)
 
 	if err != nil {
 		return color.Black, err
