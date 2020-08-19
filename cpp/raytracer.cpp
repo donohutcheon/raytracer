@@ -2,14 +2,17 @@
 #include <cstdio>
 #include <cmath>
 #include <fstream>
+#include <memory>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 #include "rapidjson/document.h"
 #include "rapidjson/istreamwrapper.h"
 #include "rapidjson/stringbuffer.h"
 
 #include "sphere.h"
+#include "config.h"
 
 
 #if defined __linux__ || defined __APPLE__
@@ -127,9 +130,14 @@ Vec3f castRay(int x, int y, const std::vector<Sphere> &spheres) {
     return pixel;
 }
 
-void render(const std::vector<Sphere> &spheres)
+void render(std::shared_ptr<Config> config)
 {
-    unsigned width = 1200, height = 900;
+    auto spheres = config->getScene()->getSpheres();
+
+    unsigned width = config->getImage()->getWidth();
+    unsigned height = config->getImage()->getHeight();
+    auto cameraPos = config->getScene()->getCameraPos();
+
     Vec3f *image = new Vec3f[width * height], *pixel = image;
     double invWidth = 1 / double(width), invHeight = 1 / double(height);
     double fov = 30, aspectratio = width / double(height);
@@ -138,10 +146,12 @@ void render(const std::vector<Sphere> &spheres)
     for (unsigned y = 0; y < height; ++y) {
         for (unsigned x = 0; x < width; ++x, ++pixel) {
             double xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
+            // ((2 * x * invWidth) + (1 * invWidth)) - 1) * angle * aspectratio;
             double yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
             Vec3f raydir(xx, yy, -1);
+            //std::cout << x << " " << y << " " << raydir << std::endl;
             raydir.normalize();
-            *pixel = trace(Vec3f(0), raydir, spheres, 0);
+            *pixel = trace(*cameraPos, raydir, *spheres, 0);
         }
     }
     // Save result to a PPM image (keep these flags if you compile under Windows)
@@ -156,43 +166,32 @@ void render(const std::vector<Sphere> &spheres)
     delete [] image;
 }
 
-int loadScene(std::string filename, std::vector<Sphere> *container) {
-    try {
-        std::ifstream ifs { filename };
-        if ( !ifs.is_open() )
-        {
-            std::cerr << "Could not open file for reading!\n";
-            return EXIT_FAILURE;
-        }
+std::shared_ptr<Config> loadScene(std::string filename) {
 
-        rapidjson::IStreamWrapper isw { ifs };
-        rapidjson::Document doc {};
-        doc.ParseStream( isw );
-        ifs.close();
-
-        rapidjson::StringBuffer buffer {};
-
-        if ( doc.HasParseError() )
-        {
-            std::cout << "Error  : " << doc.GetParseError()  << '\n'
-                      << "Offset : " << doc.GetErrorOffset() << '\n';
-            return EXIT_FAILURE;
-        }
-
-        const std::string jsonStr { buffer.GetString() };
-
-        auto spheres = doc.GetArray();
-        for(const auto &sphere : spheres){
-            const rapidjson::Value::ConstObject &s = sphere.GetObject();
-            auto s1 = Sphere::create(s);
-            container->push_back(s1);
-        }
-    } catch(std::exception &e) {
-        std::cerr << e.what() << std::endl;
-        return EXIT_FAILURE;
+    std::ifstream ifs { filename };
+    if ( !ifs.is_open() )
+    {
+        throw std::runtime_error("could not open file for reading");
     }
 
-    return EXIT_SUCCESS;
+    rapidjson::IStreamWrapper isw { ifs };
+    rapidjson::Document doc {};
+    doc.ParseStream( isw );
+    ifs.close();
+
+    rapidjson::StringBuffer buffer {};
+
+    if ( doc.HasParseError() )
+    {
+        std::stringstream error;
+        error << "Error  : " << doc.GetParseError()  << '\n'
+                  << "Offset : " << doc.GetErrorOffset() << '\n';
+        throw std::runtime_error(error.str());
+    }
+
+    const std::string jsonStr { buffer.GetString() };
+
+    return Config::create(doc);
 }
 
 int main(int argc, char **argv)
@@ -203,12 +202,15 @@ int main(int argc, char **argv)
     }
     std::string sceneFile = argv[1];
     std::cout << sceneFile << std::endl;
-    std::vector<Sphere> spheres;
-    int result = loadScene(sceneFile, &spheres);
-    if (result) return EXIT_FAILURE;
 
-    srand48(13);
-    render(spheres);
+    try {
+        auto config = loadScene(sceneFile);
+        srand48(13);
+        render(config);
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
     return 0;
 }

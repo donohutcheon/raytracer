@@ -1,114 +1,297 @@
-[
-  {
-    "center": {"x": 0, "y": -10004, "z": -20},
-    "radius": 10000,
-    "surfaceColor": {"x": 0.2, "y": 0.2, "z": 0.2},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0,
-    "reflection": 0
+{
+  "image": {
+    "width": 1400,
+    "height": 900
   },
-  {
-    "center": {"x": 0, "y": 2, "z": -50},
-    "radius": 4,
-    "surfaceColor": {"x": 0.9, "y": 0.36, "z": 0.76},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.2,
-    "reflection": 0.5
-  },
-  {
-    "center": {"x": -2000, "y": 8000, "z": -20000},
-    "radius": 400,
-    "surfaceColor": {"x": 0.0, "y": 0.0, "z": 0.0},
-    "emitColor": {"x": 3.5, "y": 3.5, "z": 3.5},
-    "transparency": 0.0,
-    "reflection": 0
-  },
-  {
-    "center": {"x": -3.9, "y": 2.7, "z": -20},
-    "radius": 0.5,
-    "surfaceColor": {"x": 0.5, "y": 0.5, "z": 0.5},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.6,
-    "reflection": 0.0
-  },
-  {
-    "center": {"x": -3, "y": 1, "z": -43},
-    "radius": 0.7,
-    "surfaceColor": {"x": 0.8, "y": 0.8, "z": 0.8},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.8,
-    "reflection": 0.000
-  },
-  {
-    "center": {"x": 5, "y": -1, "z": -15},
-    "radius": 2,
-    "surfaceColor": {"x": 0.9, "y": 0.76, "z": 0.46},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0,
-    "reflection": 1
-  },
-  {
-    "center": {"x": 5, "y": 0, "z": -25},
-    "radius": 3,
-    "surfaceColor": {"x": 0.65, "y": 0.77, "z": 0.97},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0,
-    "reflection": 1
-  },
-  {
-    "center": {"x": -5.5, "y": 0, "z": -15},
-    "radius": 3,
-    "surfaceColor": {"x": 0.65, "y": 0.77, "z": 0.97},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.3,
-    "reflection": 1
-  },
-  {
-    "center": {"x": -2.0, "y": -0.7, "z": -42},
-    "radius": 0.7,
-    "surfaceColor": {"x": 0.72, "y": 0.66, "z": 0.86},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.3,
-    "reflection": 0.0
-  },
-  {
-    "center": {"x": -4.0, "y": -2.3, "z": -35},
-    "radius": 0.7,
-    "surfaceColor": {"x": 0.8, "y": 0.76, "z": 0.84},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.2,
-    "reflection": 0.0
-  },
-  {
-    "center": {"x": 1.8, "y": -2.2, "z": -37},
-    "radius": 0.4,
-    "surfaceColor": {"x": 0.6, "y": 0.5, "z": 0.5},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.0,
-    "reflection": 0.0
-  },
-  {
-    "center": {"x": -0.8, "y": -3.2, "z": -25},
-    "radius": 0.8,
-    "surfaceColor": {"x": 0.7, "y": 0.7, "z": 0.7},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.4,
-    "reflection": 1
-  },
-  {
-    "center": {"x": 1.8, "y": -2.9, "z": -16},
-    "radius": 1.2,
-    "surfaceColor": {"x": 0.8, "y": 0.8, "z": 0.8},
-    "emitColor": {"x": 0, "y": 0, "z": 0},
-    "transparency": 0.6,
-    "reflection": 0.6
-  },
-  {
-    "center": {"x": 0, "y": 20, "z": -30},
-    "radius": 3,
-    "surfaceColor": {"x": 0, "y": 0, "z": 0},
-    "emitColor": {"x": 2, "y": 2, "z": 2},
-    "transparency": 0,
-    "reflection": 0
+  "scene": {
+    "camera" : {
+      "position" : {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    "spheres": [
+      {
+        "center": {
+          "x": 0,
+          "y": -10004,
+          "z": -20
+        },
+        "radius": 10000,
+        "surfaceColor": {
+          "x": 0.2,
+          "y": 0.2,
+          "z": 0.2
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0,
+        "reflection": 0
+      },
+      {
+        "center": {
+          "x": 0,
+          "y": 2,
+          "z": -50
+        },
+        "radius": 4,
+        "surfaceColor": {
+          "x": 0.9,
+          "y": 0.36,
+          "z": 0.76
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.2,
+        "reflection": 0.5
+      },
+      {
+        "center": {
+          "x": -2000,
+          "y": 8000,
+          "z": -20000
+        },
+        "radius": 400,
+        "surfaceColor": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "emitColor": {
+          "x": 3.5,
+          "y": 3.5,
+          "z": 3.5
+        },
+        "transparency": 0.0,
+        "reflection": 0
+      },
+      {
+        "center": {
+          "x": -3.9,
+          "y": 2.7,
+          "z": -20
+        },
+        "radius": 0.5,
+        "surfaceColor": {
+          "x": 0.5,
+          "y": 0.5,
+          "z": 0.5
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.6,
+        "reflection": 0.0
+      },
+      {
+        "center": {
+          "x": -3,
+          "y": 1,
+          "z": -43
+        },
+        "radius": 0.7,
+        "surfaceColor": {
+          "x": 0.8,
+          "y": 0.8,
+          "z": 0.8
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.8,
+        "reflection": 0.000
+      },
+      {
+        "center": {
+          "x": 5,
+          "y": -1,
+          "z": -15
+        },
+        "radius": 2,
+        "surfaceColor": {
+          "x": 0.9,
+          "y": 0.76,
+          "z": 0.46
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0,
+        "reflection": 1
+      },
+      {
+        "center": {
+          "x": 5,
+          "y": 0,
+          "z": -25
+        },
+        "radius": 3,
+        "surfaceColor": {
+          "x": 0.65,
+          "y": 0.77,
+          "z": 0.97
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0,
+        "reflection": 1
+      },
+      {
+        "center": {
+          "x": -5.5,
+          "y": 0,
+          "z": -15
+        },
+        "radius": 3,
+        "surfaceColor": {
+          "x": 0.65,
+          "y": 0.77,
+          "z": 0.97
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.3,
+        "reflection": 1
+      },
+      {
+        "center": {
+          "x": -2.0,
+          "y": -0.7,
+          "z": -42
+        },
+        "radius": 0.7,
+        "surfaceColor": {
+          "x": 0.72,
+          "y": 0.66,
+          "z": 0.86
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.3,
+        "reflection": 0.0
+      },
+      {
+        "center": {
+          "x": -4.0,
+          "y": -2.3,
+          "z": -35
+        },
+        "radius": 0.7,
+        "surfaceColor": {
+          "x": 0.8,
+          "y": 0.76,
+          "z": 0.84
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.2,
+        "reflection": 0.0
+      },
+      {
+        "center": {
+          "x": 1.8,
+          "y": -2.2,
+          "z": -37
+        },
+        "radius": 0.4,
+        "surfaceColor": {
+          "x": 0.6,
+          "y": 0.5,
+          "z": 0.5
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.0,
+        "reflection": 0.0
+      },
+      {
+        "center": {
+          "x": -0.8,
+          "y": -3.2,
+          "z": -25
+        },
+        "radius": 0.8,
+        "surfaceColor": {
+          "x": 0.7,
+          "y": 0.7,
+          "z": 0.7
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.4,
+        "reflection": 1
+      },
+      {
+        "center": {
+          "x": 1.8,
+          "y": -2.9,
+          "z": -16
+        },
+        "radius": 1.2,
+        "surfaceColor": {
+          "x": 0.8,
+          "y": 0.8,
+          "z": 0.8
+        },
+        "emitColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "transparency": 0.6,
+        "reflection": 0.6
+      },
+      {
+        "center": {
+          "x": 0,
+          "y": 20,
+          "z": -30
+        },
+        "radius": 3,
+        "surfaceColor": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "emitColor": {
+          "x": 2,
+          "y": 2,
+          "z": 2
+        },
+        "transparency": 0,
+        "reflection": 0
+      }
+    ]
   }
-]
+}
