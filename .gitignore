@@ -25,8 +25,8 @@ raytracer
 untitled.ppm
 cpp/cmake-build-debug/
 conaninfo.txt
-conanbuild.txt
-conanbuild.cmake
+conanbuildinfo.txt
+conanbuildinfo.cmake
 conan.lock
 CMakeCache.txt
 cmake_install.cmake
