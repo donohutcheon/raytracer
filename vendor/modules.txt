@@ -1,3 +1,6 @@
+# github.com/chewxy/math32 v1.0.6
+## explicit
+github.com/chewxy/math32
 # github.com/davecgh/go-spew v1.1.0
 github.com/davecgh/go-spew/spew
 # github.com/pkg/errors v0.9.1

@@ -4,23 +4,25 @@ import (
 	"errors"
 	"image"
 	"image/color"
-	"math"
+	// Uncomment for 64bit floats
+	// "math"
+	math "github.com/chewxy/math32"
 )
 
 const maxRayDepth = 15
 
-func mix(a float64, b float64, mix float64) float64 {
+func mix(a float32, b float32, mix float32) float32 {
 	return b * mix + a * (1 - mix)
 }
 
-func RenderImage(config *Config, fieldOfView float64) (image.Image, error){
+func RenderImage(config *Config, fieldOfView float32) (image.Image, error){
 	width := config.Image.Width
 	height := config.Image.Height
 	r := image.Rect(0, 0, width, height)
 	img := image.NewRGBA(r)
-	invWidth := 1 / float64(width)
-	invHeight := 1 / float64(height)
-	aspectRatio := float64(width) / float64(height)
+	invWidth := 1 / float32(width)
+	invHeight := 1 / float32(height)
+	aspectRatio := float32(width) / float32(height)
 
 	angle := math.Tan(math.Pi * 0.5 * fieldOfView / 180.0)
 	for y := 0; y < height; y++ {
@@ -35,9 +37,9 @@ func RenderImage(config *Config, fieldOfView float64) (image.Image, error){
 	return img, nil
 }
 
-func CastRay(x, y int, invWidth, invHeight, aspectRatio, angle float64, config *Config) (color.Color, error) {
-	fx := float64(x)
-	fy := float64(y)
+func CastRay(x, y int, invWidth, invHeight, aspectRatio, angle float32, config *Config) (color.Color, error) {
+	fx := float32(x)
+	fy := float32(y)
 	xx := (2 * ((fx + 0.5) * invWidth) - 1) * angle * aspectRatio
 	yy := (1 - 2 * ((fy + 0.5) * invHeight)) * angle
 	rayDir := Vector3{
@@ -94,7 +96,7 @@ func Trace(rayOrigin Vector3, rayDirection Vector3, spheres []Sphere, depth int)
 	intersect := rayOrigin.Add(rayDirection.ScalarMultiply(tnear))
 	normal := intersect.Subtract(nearest.Center).Normalize()
 
-	bias := 1e-4 // add some bias to the point from which we will be tracing
+	bias := float32(1e-4) // add some bias to the point from which we will be tracing
 	inside := false
 
 	if rayDirection.DotProduct(normal) > 0 {
@@ -115,7 +117,7 @@ func Trace(rayOrigin Vector3, rayDirection Vector3, spheres []Sphere, depth int)
 
 		refraction := Vector3{}
 		if nearest.Transparency > 0 {
-			ior := 1.1
+			ior := float32(1.1)
 			eta := ior
 			if !inside {
 				eta = 1 / ior

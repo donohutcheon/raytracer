@@ -2,9 +2,10 @@ package raytrace
 
 import (
 	"image/color"
-	"math"
+
 	"testing"
 
+	math "github.com/chewxy/math32"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,8 +13,8 @@ func Test_CalculateSurfaceColor(t *testing.T) {
 	type params struct {
 		reflection    Vector3
 		refraction    Vector3
-		fresnelEffect float64
-		transparency  float64
+		fresnelEffect float32
+		transparency  float32
 		surfaceColor  Vector3
 	}
 	tests := []struct {
@@ -55,7 +56,7 @@ func TestCastRay(t *testing.T) {
 		y         int
 		width     int
 		height    int
-		fov       float64
+		fov       float32
 		spheres   []Sphere
 	}
 	tests := []struct {
@@ -85,11 +86,20 @@ func TestCastRay(t *testing.T) {
 			if tt.skip {
 				t.Skip()
 			}
-			invWidth := 1 / float64(tt.args.width)
-			invHeight := 1 / float64(tt.args.height)
-			aspectRatio := float64(tt.args.width) * invHeight
-			angle := math.Tan(math.Pi * 0.5 * tt.args.fov / 180.0)
-			got, err := CastRay(tt.args.x, tt.args.y, invWidth, invHeight, aspectRatio, angle, tt.args.spheres)
+			invWidth := 1 / float32(tt.args.width)
+			invHeight := 1 / float32(tt.args.height)
+			aspectRatio := float32(tt.args.width) * invHeight
+			angle := float32(math.Tan(math.Pi * float32(0.5 * tt.args.fov) / 180.0))
+			config := Config{
+				Image: Image{
+					Width:  tt.args.width,
+					Height: tt.args.height,
+				},
+				Scene: Scene{
+					Spheres: tt.args.spheres,
+				},
+			}
+			got, err := CastRay(tt.args.x, tt.args.y, invWidth, invHeight, aspectRatio, angle, &config)
 			assert.NoError(t, err)
 			assert.Equal(t, tt.want, got)
 		})

@@ -2,13 +2,15 @@ package raytrace
 
 import (
 	"encoding/json"
-	"math"
+	// Uncomment for 64bit floats
+	// "math"
+	math "github.com/chewxy/math32"
 )
 
 type Vector3 struct {
-	X float64 `json:"x"`
-	Y float64 `json:"y"`
-	Z float64 `json:"z"`
+	X float32 `json:"x"`
+	Y float32 `json:"y"`
+	Z float32 `json:"z"`
 }
 
 func (v Vector3) String() (string, error){
@@ -36,15 +38,15 @@ func (v Vector3) Normalize() Vector3 {
 	return newVec
 }
 
-func (v Vector3) LengthSquared() float64{
+func (v Vector3) LengthSquared() float32{
 	return v.X*v.X + v.Y*v.Y + v.Z*v.Z
 }
 
-func (v Vector3) Length() float64{
+func (v Vector3) Length() float32{
 	return math.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
 }
 
-func (v Vector3) ScalarMultiply(f float64) Vector3 {
+func (v Vector3) ScalarMultiply(f float32) Vector3 {
 	return Vector3{
 		X: v.X * f,
 		Y: v.Y * f,
@@ -52,7 +54,7 @@ func (v Vector3) ScalarMultiply(f float64) Vector3 {
 	}
 }
 
-func (v Vector3) DotProduct(v2 Vector3) float64 {
+func (v Vector3) DotProduct(v2 Vector3) float32 {
 	return v.X * v2.X + v.Y * v2.Y + v.Z * v2.Z
 }
 

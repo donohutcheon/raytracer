@@ -9,11 +9,11 @@ import (
 func TestSphere_Intersect(t *testing.T) {
 	type fields struct {
 		Center       Vector3
-		Radius       float64
+		Radius       float32
 		SurfaceColor Vector3
 		ReflectColor Vector3
-		Transparency float64
-		Reflection   float64
+		Transparency float32
+		Reflection   float32
 	}
 	type args struct {
 		rayOrigin    Vector3
@@ -24,8 +24,8 @@ func TestSphere_Intersect(t *testing.T) {
 		fields fields
 		args   args
 		want   bool
-		want1  float64
-		want2  float64
+		want1  float32
+		want2  float32
 	}{
 		{
 			name:   "Intersect 1",
