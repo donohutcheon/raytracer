@@ -18,6 +18,7 @@ type Sphere struct {
 var posInfinity = math.Inf(1)
 
 func (s *Sphere) RadiusSquared() float32{
+
 	return s.Radius * s.Radius
 }
 
@@ -25,11 +26,11 @@ func (s *Sphere) Intersect(rayOrigin Vector3, rayDirection Vector3) (bool, float
 	l := s.Center.Subtract(rayOrigin)
 	tca := l.DotProduct(rayDirection)
 	if tca < 0 {
-		return false, math.Inf(1), math.Inf(1)
+		return false, posInfinity, posInfinity
 	}
 	d2 := l.DotProduct(l) - (tca * tca)
 	if d2 > s.RadiusSquared() {
-		return false, math.Inf(1), math.Inf(1)
+		return false, posInfinity, posInfinity
 	}
 	thc := math.Sqrt(s.RadiusSquared() - d2)
 	t0 := tca - thc
