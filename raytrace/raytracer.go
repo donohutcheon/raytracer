@@ -9,7 +9,7 @@ import (
 	math "github.com/chewxy/math32"
 )
 
-const maxRayDepth = 15
+const maxRayDepth = 5
 
 func mix(a float32, b float32, mix float32) float32 {
 	return b * mix + a * (1 - mix)

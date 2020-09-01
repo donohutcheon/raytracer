@@ -2,7 +2,6 @@ package raytrace
 
 import (
 	"image/color"
-
 	"testing"
 
 	math "github.com/chewxy/math32"
@@ -54,17 +53,14 @@ func TestCastRay(t *testing.T) {
 		rayOrigin Vector3
 		x         int
 		y         int
-		width     int
-		height    int
 		fov       float32
-		spheres   []Sphere
+		config    Config
 	}
 	tests := []struct {
 		name    string
 		args    args
 		want    color.Color
 		wantErr bool
-		skip    bool
 	}{
 		{
 			name:    "Test 1",
@@ -72,10 +68,16 @@ func TestCastRay(t *testing.T) {
 				rayOrigin: Vector3{},
 				x:         149,
 				y:         351,
-				width:     640,
-				height:    480,
 				fov:       30.0,
-				spheres:   buildDefaultScene(t),
+				config:    Config{
+					Image: Image{
+						Width:  640,
+						Height: 480,
+					},
+					Scene: Scene{
+						Spheres: buildDefaultScene(),
+					},
+				},
 			},
 			want:    color.RGBA{R: 147, G: 147, B: 147, A: 255},
 			wantErr: false,
@@ -83,25 +85,76 @@ func TestCastRay(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.skip {
-				t.Skip()
-			}
-			invWidth := 1 / float32(tt.args.width)
-			invHeight := 1 / float32(tt.args.height)
-			aspectRatio := float32(tt.args.width) * invHeight
-			angle := float32(math.Tan(math.Pi * float32(0.5 * tt.args.fov) / 180.0))
-			config := Config{
-				Image: Image{
-					Width:  tt.args.width,
-					Height: tt.args.height,
-				},
-				Scene: Scene{
-					Spheres: tt.args.spheres,
-				},
-			}
-			got, err := CastRay(tt.args.x, tt.args.y, invWidth, invHeight, aspectRatio, angle, &config)
+			invWidth := 1 / float32(tt.args.config.Image.Width)
+			invHeight := 1 / float32(tt.args.config.Image.Height)
+			aspectRatio := float32(tt.args.config.Image.Width) * invHeight
+			angle := math.Tan(math.Pi * (0.5 * tt.args.fov) / 180.0)
+			got, err := CastRay(tt.args.x, tt.args.y, invWidth, invHeight, aspectRatio, angle, &tt.args.config)
 			assert.NoError(t, err)
 			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func BenchmarkRenderImage(b *testing.B) {
+	type args struct {
+		config      *Config
+		fieldOfView float32
+	}
+	tests := []struct {
+		name    string
+		args    args
+	}{
+		{
+			name:    "Benchmark 1200*900",
+			args:    args{
+				config:      &Config{
+					Image: Image{
+						Width:  1200,
+						Height: 900,
+					},
+					Scene: Scene{
+						Spheres: buildDefaultScene(),
+					},
+				},
+				fieldOfView: 30.0,
+			},
+		},
+		{
+			name:    "Benchmark 640*480",
+			args:    args{
+				config:      &Config{
+					Image: Image{
+						Width:  640,
+						Height: 480,
+					},
+					Scene: Scene{
+						Spheres: buildDefaultScene(),
+					},
+				},
+				fieldOfView: 30.0,
+			},
+		},
+		{
+			name:    "Benchmark 1024*768",
+			args:    args{
+				config:      &Config{
+					Image: Image{
+						Width:  1024,
+						Height: 768,
+					},
+					Scene: Scene{
+						Spheres: buildDefaultScene(),
+					},
+				},
+				fieldOfView: 30.0,
+			},
+		},
+	}
+	for _, tt := range tests {
+		b.Log("Benchmark iterations = ", b.N)
+		b.Run(tt.name, func(b *testing.B) {
+			RenderImage(tt.args.config, tt.args.fieldOfView)
 		})
 	}
 }

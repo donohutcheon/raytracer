@@ -1,13 +1,6 @@
 package raytrace
 
-import (
-	"encoding/json"
-	"fmt"
-	"testing"
-)
-
-func buildDefaultScene(t *testing.T) []Sphere {
-	t.Helper()
+func buildDefaultScene() []Sphere {
 	var spheres []Sphere
 	spheres = append(spheres, Sphere{
 		Center:       Vector3{X: 0, Y: -10004, Z: -20},
@@ -58,7 +51,5 @@ func buildDefaultScene(t *testing.T) []Sphere {
 		Transparency: 0,
 		Reflection:   0.0,
 	})
-	b, _ := json.Marshal(spheres)
-	fmt.Println(string(b))
 	return spheres
 }
