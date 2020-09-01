@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"image/png"
 	"io/ioutil"
 	"os"
@@ -10,15 +11,17 @@ import (
 	"github.com/pkg/profile"
 )
 
-func main() {
-	defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
+var workers = flag.Int("workers", 8, "Split the workload across n workers")
 
+func main() {
+	defer profile.Start(profile.TraceProfile, profile.ProfilePath(".")).Stop()
+	flag.Parse()
 	config, err := buildScene()
 	if err != nil {
 		panic("Could not load scene " + err.Error())
 	}
 
-	img, err := raytrace.RenderImage(config, 30.0)
+	img, err := raytrace.RenderImage(config, 30.0, *workers)
 	if err != nil {
 		panic(err)
 	}

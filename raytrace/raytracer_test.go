@@ -2,6 +2,7 @@ package raytrace
 
 import (
 	"image/color"
+	"runtime"
 	"testing"
 
 	math "github.com/chewxy/math32"
@@ -100,6 +101,7 @@ func BenchmarkRenderImage(b *testing.B) {
 	type args struct {
 		config      *Config
 		fieldOfView float32
+		workers     int
 	}
 	tests := []struct {
 		name    string
@@ -118,6 +120,7 @@ func BenchmarkRenderImage(b *testing.B) {
 					},
 				},
 				fieldOfView: 30.0,
+				workers:     runtime.NumCPU(),
 			},
 		},
 		{
@@ -133,6 +136,7 @@ func BenchmarkRenderImage(b *testing.B) {
 					},
 				},
 				fieldOfView: 30.0,
+				workers:     runtime.NumCPU(),
 			},
 		},
 		{
@@ -148,13 +152,14 @@ func BenchmarkRenderImage(b *testing.B) {
 					},
 				},
 				fieldOfView: 30.0,
+				workers:     runtime.NumCPU(),
 			},
 		},
 	}
 	for _, tt := range tests {
 		b.Log("Benchmark iterations = ", b.N)
 		b.Run(tt.name, func(b *testing.B) {
-			RenderImage(tt.args.config, tt.args.fieldOfView)
+			RenderImage(tt.args.config, tt.args.fieldOfView, tt.args.workers)
 		})
 	}
 }

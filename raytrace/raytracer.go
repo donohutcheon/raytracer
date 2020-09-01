@@ -2,8 +2,11 @@ package raytrace
 
 import (
 	"errors"
+	"fmt"
 	"image"
 	"image/color"
+	"sync"
+
 	// Uncomment for 64bit floats
 	// "math"
 	math "github.com/chewxy/math32"
@@ -15,25 +18,43 @@ func mix(a float32, b float32, mix float32) float32 {
 	return b * mix + a * (1 - mix)
 }
 
-func RenderImage(config *Config, fieldOfView float32) (image.Image, error){
+func RenderImage(config *Config, fieldOfView float32, workers int) (image.Image, error){
 	width := config.Image.Width
 	height := config.Image.Height
+
 	r := image.Rect(0, 0, width, height)
 	img := image.NewRGBA(r)
+
 	invWidth := 1 / float32(width)
 	invHeight := 1 / float32(height)
 	aspectRatio := float32(width) / float32(height)
-
 	angle := math.Tan(math.Pi * 0.5 * fieldOfView / 180.0)
-	for y := 0; y < height; y++ {
-		for x := 0; x < width; x++ {
-			c, err := CastRay(x, y, invWidth, invHeight, aspectRatio, angle, config)
-			if err != nil {
-				return nil, err
+
+	type coord struct{x, y int}
+	c := make(chan coord, width * height)
+	var w sync.WaitGroup
+
+	for n := 0; n < workers; n++ {
+		w.Add(1)
+		go func() {
+			for px := range c {
+				color, err := CastRay(px.x, px.y, invWidth, invHeight, aspectRatio, angle, config)
+				if err != nil {
+					fmt.Errorf(err.Error())
+				}
+				img.Set(px.x, px.y, color)
 			}
-			img.Set(x, y, c)
+			w.Done()
+		}()
+	}
+
+	for i := 0; i < width; i++ {
+		for j := 0; j < height; j++ {
+			c <- coord{i, j }
 		}
 	}
+	close(c)
+	w.Wait()
 	return img, nil
 }
 
